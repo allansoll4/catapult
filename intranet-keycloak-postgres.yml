@@ -1,5 +1,5 @@
 - name: Keycloak postgres playbook
   become: yes
-  hosts: all
+  hosts: tlv-host6
   roles:
     - keycloak-postgres

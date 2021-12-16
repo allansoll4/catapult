@@ -1,20 +1,13 @@
 
-    # - name: Update and upgrade apt packages
-    #   apt:
-    #     upgrade: yes
-    #     update_cache: yes
-    - name: Install docker on machines
-      apt:
-        name: docker.io
-        state: present
-    - name: Ensure directory exists
-      become: true
-      file:
-        group: root
-        owner: root
-        path: "{{ service_directory.drupal_mysql_directory }}"
-        state: directory
-    - name: Run Docker container using simple-docker-image
+
+    # - name: Ensure directory exists
+    #   become: true
+    #   file:
+    #     group: root
+    #     owner: root
+    #     path: "{{ service_directory.drupal_mysql_directory }}"
+    #     state: directory
+    - name: Run Docker container using simple-docker-image mysql
       docker_container:
         name: drupal-mysql
         image: mysql:8.0.27
@@ -36,4 +29,4 @@
         detach: true
         pull: yes
         ports:
-          - "5052:8080"
+          - "5050:8080"

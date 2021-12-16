@@ -1,8 +1,11 @@
 - name: Drupal mysql playbook
   become: yes
   gather_facts: no
-  hosts: all
+  hosts: tlv-host4
   
   tasks:
+    - name: Get usename
+      ansible.builtin.shell: pwd
+      register: result
     - ansible.builtin.debug:
-        msg: "The current user is {{docker_credentials.user}}"
+        msg: "The current path is {{result.stdout}}"

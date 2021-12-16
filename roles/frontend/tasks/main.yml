@@ -1,13 +1,9 @@
-    - name: Install docker on machines
-      apt:
-        name: docker.io
-        state: present
     - name: Ensure directory exists
       become: true
       file:
         group: root
         owner: root
-        path: "{{ service_directory.docker_directory }}"
+        path: "{{ service_directory.fe_app }}"
         state: directory
     - ansible.builtin.debug:
         msg: "The current docker user is {{ docker_credentials.user }}"
@@ -25,4 +21,7 @@
         detach: true
         pull: yes
         ports:
-          - "8082:8081" 
+          - "80:8080" 
+    - name: Log out of DockerHub
+      community.docker.docker_login:
+        state: absent

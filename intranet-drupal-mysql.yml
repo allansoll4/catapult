@@ -1,5 +1,5 @@
 - name: Drupal mysql playbook
   become: yes
-  hosts: all
+  hosts: tlv-host1
   roles:
     - drupal-mysql

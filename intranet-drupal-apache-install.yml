@@ -1,6 +1,6 @@
 ---
 - name: Drupal install php and apache
-  hosts: all
+  hosts: tlv-host0
   become: true
   roles:
     - geerlingguy.apache

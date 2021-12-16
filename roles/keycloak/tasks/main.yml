@@ -1,35 +1,40 @@
-    - name: Update and upgrade apt packages
-      apt:
-        upgrade: yes
-        update_cache: yes
-    - name: Install docker on machines
-      apt:
-        name: docker.io
-        state: present
-    - name: Ensure directory exists
-      become: true
-      file:
-        group: root
-        owner: root
-        path: "{{ service_directory.keycloak_directory }}"
-        state: directory
-    - ansible.builtin.debug:
-        msg: "The docker user is {{ docker_credentials.user }}"
-    - name: Log into DockerHub
-      become: true
-      community.docker.docker_login:
-        username: "{{ docker_credentials.user }}"
-        password: "{{ docker_credentials.password }}"
-    - name: Pull docker image and start container
-      docker_container:
-        name: keycloak-intranet
-        image: caty/tlv-intranet-keycloak:latest
-        state: started
-        recreate: yes
-        detach: true
-        pull: yes
-        ports:
-          - "8083:8080"
-    - name: Log out of DockerHub
-      community.docker.docker_login:
-        state: absent
+# - name: Update and upgrade apt packages
+#   apt:
+#     upgrade: yes
+#     update_cache: yes
+# - name: Install docker on machines
+#   apt:
+#     name: docker.io
+#     state: present
+- name: Ensure directory exists
+  become: true
+  file:
+    group: root
+    owner: root
+    path: "{{ service_directory.keycloak_directory }}"
+    state: directory
+- ansible.builtin.debug:
+    msg: "The docker user is {{ docker_credentials.user }}"
+- name: Log into DockerHub
+  become: true
+  community.docker.docker_login:
+    username: "{{ docker_credentials.user }}"
+    password: "{{ docker_credentials.password }}"
+# - name: Login to Docker registry
+#   become: true
+#   command: "docker login -u {{ docker_credentials.user }} --password-stdin"
+#   args:
+#     stdin: "{{ docker_credentials.password }}"
+- name: Pull docker image and start container
+  docker_container:
+    name: keycloak-intranet
+    image: caty/tlv-intranet-keycloak:latest
+    state: started
+    recreate: yes
+    detach: true
+    pull: yes
+    ports:
+      - "80:8080"
+- name: Log out of DockerHub
+  community.docker.docker_login:
+    state: absent

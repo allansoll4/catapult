@@ -30,7 +30,7 @@ services:
        - pgadminkey:/var/lib/pgadmin
 
     ports:
-      - "${PGADMIN_PORT:-5051}:80"
+      - "${PGADMIN_PORT:-5050}:80"
     networks:
       - custom_network
     restart: unless-stopped

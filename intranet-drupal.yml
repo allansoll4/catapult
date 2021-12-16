@@ -1,13 +1,13 @@
 - name: Drupal main install playbook
   become: yes
-  hosts: all
+  hosts: tlv-host0
   roles:
     - geerlingguy.composer
     - geerlingguy.drupal
-  
+    - drupal-apache
   vars:
     drupal_db_user: drupal
     drupal_db_password: drupal
     drupal_db_name: drupal
-    drupal_db_backend: 0.0.0.0:3306
+    drupal_db_backend: 172.16.112.61:3306
     drupal_db_host: "127.0.0.1"

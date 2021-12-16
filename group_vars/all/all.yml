@@ -9,11 +9,12 @@ service_directory:
   docker_directory: /home/mark_borissov/project/AnsibleTest/docker
   drupal_directory: /home/mark_borissov/project/AnsibleTest/drupal
   employee_directory: /home/mark_borissov/project/AnsibleTest/Catapult/Employee
-  keycloak_directory: /home/mark_borissov/project/AnsibleTest/Catapult/Keycloak
+  keycloak_directory: /opt/tlv/keycloak
   drupal_mysql_directory: /home/mark_borissov/project/AnsibleTest/Catapult/DrupalMysql
-  employee_app: /home/mark_borissov/project/AnsibleTest/Catapult/EmployeeApp
-  employee_app_database: /home/mark_borissov/project/AnsibleTest/Catapult/EmployeeAppDatabase
-  keycloak_app_database: /home/mark_borissov/project/AnsibleTest/Catapult/KeyCloakPostgres
+  employee_app: /opt/tlv/services/employee_app
+  keycloak_app_database: /opt/tlv/services/employee_app_database
+  fe_app: /opt/tlv/services/fe_app
+  employee_app_database: /opt/tlv/services/employee_app_database
 employee_database_port: 5432
 employee_database_name: employee
 employee_database:
@@ -26,9 +27,4 @@ keycloak_database:
   username: PostGresKeyCloak
   password: 12345678
   url: "postgres:{{ keycloak_database_port }}/{{ keycloak_database_name }}"
-docker_registry:
-  user: "tlvintranet"
-  password: "3653e229-c016-4894-9baf-535f9f4a5030"
-test_pass:
-  include_vars:
-    file: vault-test.yaml
+

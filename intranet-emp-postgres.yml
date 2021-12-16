@@ -1,5 +1,5 @@
 - name: Employee postgres playbook
   become: yes
-  hosts: all
+  hosts: tlv-host3
   roles:
     - employee-postgres

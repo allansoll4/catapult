@@ -1,6 +1,6 @@
 - name: Docker playbook
   become: yes
-  hosts: all
+  hosts: tlv-host2
   roles:
     - employee
 
