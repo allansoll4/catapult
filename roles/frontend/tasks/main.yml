@@ -1,0 +1,28 @@
+    - name: Install docker on machines
+      apt:
+        name: docker.io
+        state: present
+    - name: Ensure directory exists
+      become: true
+      file:
+        group: root
+        owner: root
+        path: "{{ service_directory.docker_directory }}"
+        state: directory
+    - ansible.builtin.debug:
+        msg: "The current docker user is {{ docker_credentials.user }}"
+    - name: Log into DockerHub
+      become: true
+      community.docker.docker_login:
+        username: "{{ docker_credentials.user }}"
+        password: "{{ docker_credentials.password }}"
+    - name: Run Docker container using simple-docker-image
+      docker_container:
+        name: fe-intranet
+        image: caty/tlv-intranet-fe:latest
+        state: started
+        recreate: yes
+        detach: true
+        pull: yes
+        ports:
+          - "8082:8081" 

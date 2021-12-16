@@ -1,0 +1,5 @@
+- name: Keycloak postgres playbook
+  become: yes
+  hosts: all
+  roles:
+    - keycloak-postgres

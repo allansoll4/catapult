@@ -1,0 +1,40 @@
+    - name: Install docker on machines
+      apt:
+        name: docker.io
+        state: present
+    # - name: Update and upgrade apt packages
+    #   apt:
+    #     upgrade: yes
+    #     update_cache: yes
+    - name: Ensure directory exists
+      become: true
+      file:
+        group: root
+        owner: root
+        path: "{{ service_directory.employee_directory }}"
+        state: directory
+    - name: Log into DockerHub
+      become: true
+      community.docker.docker_login:
+        username: "{{ docker_credentials.user }}"
+        password: "{{ docker_credentials.password }}"
+    - name: Pull image and run container
+      docker_container:
+        name: employee-intranet
+        image: caty/tlv-intranet-employee:latest
+        state: started
+        recreate: yes
+        detach: true
+        pull: yes
+        ports:
+          - "8081:8080"
+    - name: Log out of DockerHub
+      community.docker.docker_login:
+        state: absent
+    # - name: Start docker container
+    #   become: true
+    #   docker_container:
+    #     name: employee-intranet
+    #     image: caty/tlv-intranet-employee:latest
+    #     state: started
+    #     published_ports: 8080:8080

@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+version: '3.5'
+networks:
+  custom_network:
+    external: true
+    name: "{{ tlv_service_network }}"
+
+services:
+
+  employee-app-postgres:
+    image: postgres:14.0
+    ports:
+      - "{{ employee_database_port }}:5432"
+    environment:
+      POSTGRES_DB: "{{ employee_database_name }}"
+      POSTGRES_PASSWORD: "{{ employee_database.password }}"
+      POSTGRES_USER: "{{ employee_database.username }}"
+    volumes:
+    #  - "{{ service_directory.employee_app_database }}/data: /var/lib/postgresql/data"
+      - "{{ service_directory.employee_app_database }}: /var/lib/postgresql/data"
+    networks:
+      external: true
+      name: "{{ tlv_service_network }}"

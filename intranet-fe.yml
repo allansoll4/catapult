@@ -1,0 +1,5 @@
+- name: Front end playbook
+  become: yes
+  hosts: all
+  roles: 
+    - frontend

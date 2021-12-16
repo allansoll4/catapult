@@ -1,0 +1,39 @@
+# Ansible managed
+version: '3.5'
+networks:
+  custom_network:
+    driver: bridge
+
+services:
+  keycloak-app-postgres:
+    environment:
+      POSTGRES_DB: "{{ keycloak_database_name }}"
+      POSTGRES_PASSWORD: "{{ keycloak_database.password }}"
+      POSTGRES_USER: "{{ keycloak_database.username }}"
+    image: postgres:14.1
+    ports:
+      - "{{ keycloak_database_port }}:5432"
+    networks:
+      - custom_network
+    restart: unless-stopped
+    volumes:
+      #- keycloak-postgres-data:/var/lib/postgresql/data
+      - postgreskey:/var/lib/postgresql/data
+  pgadmin:
+    container_name: pgadmin_keycloak
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadminkey:/var/lib/pgadmin
+
+    ports:
+      - "${PGADMIN_PORT:-5051}:80"
+    networks:
+      - custom_network
+    restart: unless-stopped
+volumes:
+    postgreskey:
+    pgadminkey:

@@ -1,0 +1,6 @@
+---
+- name: Drupal copy config playbook
+  hosts: all
+  become: true
+  roles:
+    - drupal-apache

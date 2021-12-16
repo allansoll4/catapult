@@ -1,0 +1,34 @@
+tlv_service_network: tlv_service_network
+include_vars: 
+  file: vault-test.yml
+  name: stuff
+drupal_apache:
+  sites_config_directory: /etc/apache2/sites-available
+service_directory:
+  content_nginx: /opt/tlv/services/content_nginx
+  docker_directory: /home/mark_borissov/project/AnsibleTest/docker
+  drupal_directory: /home/mark_borissov/project/AnsibleTest/drupal
+  employee_directory: /home/mark_borissov/project/AnsibleTest/Catapult/Employee
+  keycloak_directory: /home/mark_borissov/project/AnsibleTest/Catapult/Keycloak
+  drupal_mysql_directory: /home/mark_borissov/project/AnsibleTest/Catapult/DrupalMysql
+  employee_app: /home/mark_borissov/project/AnsibleTest/Catapult/EmployeeApp
+  employee_app_database: /home/mark_borissov/project/AnsibleTest/Catapult/EmployeeAppDatabase
+  keycloak_app_database: /home/mark_borissov/project/AnsibleTest/Catapult/KeyCloakPostgres
+employee_database_port: 5432
+employee_database_name: employee
+employee_database:
+  username: PostTestGres
+  password: 12345678
+  url: "employee-app-postgres:{{ employee_database_port }}/{{ employee_database_name }}"
+keycloak_database_port: 5433
+keycloak_database_name: keycloak
+keycloak_database:
+  username: PostGresKeyCloak
+  password: 12345678
+  url: "postgres:{{ keycloak_database_port }}/{{ keycloak_database_name }}"
+docker_registry:
+  user: "tlvintranet"
+  password: "3653e229-c016-4894-9baf-535f9f4a5030"
+test_pass:
+  include_vars:
+    file: vault-test.yaml

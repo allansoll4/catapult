@@ -1,0 +1,5 @@
+- name: Drupal mysql playbook
+  become: yes
+  hosts: all
+  roles:
+    - drupal-mysql

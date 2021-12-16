@@ -1,0 +1,5 @@
+- name: Employee postgres playbook
+  become: yes
+  hosts: all
+  roles:
+    - employee-postgres

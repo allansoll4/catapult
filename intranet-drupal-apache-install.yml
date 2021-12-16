@@ -1,0 +1,13 @@
+---
+- name: Drupal install php and apache
+  hosts: all
+  become: true
+  roles:
+    - geerlingguy.apache
+    - geerlingguy.php
+    - drupal-apache
+  vars:
+    - php_default_version_debian: "7.4"
+    #- php_packages: [php, php-cli, php-devel, php-pdo, libapache2-mod-php7.4]
+  
+    

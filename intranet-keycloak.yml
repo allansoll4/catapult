@@ -1,0 +1,5 @@
+- name: Keycloak playbook
+  become: yes
+  hosts: all
+  roles:
+    - keycloak

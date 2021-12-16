@@ -1,0 +1,22 @@
+    - name: Ensure directory exists
+      become: true
+      file:
+        group: root
+        owner: root
+        path: "{{ service_directory.employee_app_database }}"
+        state: directory
+    - name: Copy service files
+      become: true
+      template:
+        dest: "{{ service_directory.employee_app_database }}"
+        group: root
+        owner: root
+        src: "{{ item }}"
+      with_items:
+        - templates/docker-compose.yml
+
+    - name: Start or update service
+      become: true
+      ansible.builtin.shell: docker-compose up -d
+      args:
+        chdir: "{{ service_directory.employee_app_database }}"
