@@ -20,11 +20,6 @@
       ansible.builtin.shell: docker-compose up -d
       args:
         chdir: "{{ service_directory.employee_app_database }}"
-    # - name: Start docker container
-    #   community.docker.docker_compose:
-    #     project_src: "{{ service_directory.keycloak_app_database }}"
-    #     build: yes
-    #     state: present
-    #   register: output
+    
       
    

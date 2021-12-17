@@ -20,17 +20,18 @@ services:
       #- keycloak-postgres-data:/var/lib/postgresql/data
       - postgreskey:/var/lib/postgresql/data
   pgadmin:
-    container_name: pgadmin_keycloak
+    container_name: pgadmin_keycloake
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_DEFAULT_EMAIL: {{PGADMIN_DEFAULT_EMAIL}}
+      PGADMIN_DEFAULT_PASSWORD: {{PGADMIN_DEFAULT_PASSWORD}}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
        - pgadminkey:/var/lib/pgadmin
-
+    links:
+      - "keycloak-app-postgres: keycloak-app-postgres"
     ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - "{{PGADMIN_PORT}}:80"
     networks:
       - custom_network
     restart: unless-stopped

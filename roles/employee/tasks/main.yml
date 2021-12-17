@@ -18,15 +18,9 @@
         recreate: yes
         detach: true
         pull: yes
+        #restart_policy: unless-stopped
         ports:
           - "8080:8080"
     - name: Log out of DockerHub
       community.docker.docker_login:
         state: absent
-    # - name: Start docker container
-    #   become: true
-    #   docker_container:
-    #     name: employee-intranet
-    #     image: caty/tlv-intranet-employee:latest
-    #     state: started
-    #     published_ports: 8080:8080

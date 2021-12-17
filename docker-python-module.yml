@@ -1,8 +1,10 @@
 - name: Docker python module install
   become: yes
-  hosts: tlv-host2
+  hosts: all
   tasks:
     - name: Install docker python module on machines
       apt:
         name: python3-docker
         state: present
+      async: 100
+      poll: 5

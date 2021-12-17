@@ -1,32 +1,31 @@
-
-
-    # - name: Ensure directory exists
-    #   become: true
-    #   file:
-    #     group: root
-    #     owner: root
-    #     path: "{{ service_directory.drupal_mysql_directory }}"
-    #     state: directory
-    - name: Run Docker container using simple-docker-image mysql
-      docker_container:
-        name: drupal-mysql
-        image: mysql:8.0.27
-        state: started
-        env: {
-               'MYSQL_ALLOW_EMPTY_PASSWORD': 'true', 
-               }
-        recreate: yes
-        detach: true
-        pull: yes
-        ports:
-          - "3306:3306"
-    - name: Run Docker container for adminer
-      docker_container:
-        name: drupal-mysql-adminer
-        image: adminer
-        state: started
-        recreate: yes
-        detach: true
-        pull: yes
-        ports:
-          - "5050:8080"
+- name: Run Docker container using simple-docker-image mysql
+  docker_container:
+    name: drupal-mysql
+    image: mysql:8.0.27
+    state: started
+    env:
+      {
+        "MYSQL_DATABASE": "{{drupal_mysql.database}}",
+        "MYSQL_USER": "{{drupal_mysql.user}}",
+        "MYSQL_PASSWORD": "{{drupal_mysql.password}}",
+        "MYSQL_ROOT_PASSWORD": "{{drupal_mysql.root_password}}",
+      }
+    volumes:
+      - "db_data:/var/lib/mysql:rw"
+    recreate: yes
+    detach: true
+    pull: yes
+    ports:
+      - "3306:3306"
+- name: Run Docker container for adminer
+  docker_container:
+    name: drupal-mysql-adminer
+    image: adminer
+    links:
+      - "drupal-mysql: drupal-mysql"
+    state: started
+    recreate: yes
+    detach: true
+    pull: yes
+    ports:
+      - "5050:8080"

@@ -1,16 +1,10 @@
+ansible_python_interpreter: /usr/bin/python3
 tlv_service_network: tlv_service_network
-include_vars: 
-  file: vault-test.yml
-  name: stuff
 drupal_apache:
   sites_config_directory: /etc/apache2/sites-available
 service_directory:
   content_nginx: /opt/tlv/services/content_nginx
-  docker_directory: /home/mark_borissov/project/AnsibleTest/docker
-  drupal_directory: /home/mark_borissov/project/AnsibleTest/drupal
-  employee_directory: /home/mark_borissov/project/AnsibleTest/Catapult/Employee
   keycloak_directory: /opt/tlv/keycloak
-  drupal_mysql_directory: /home/mark_borissov/project/AnsibleTest/Catapult/DrupalMysql
   employee_app: /opt/tlv/services/employee_app
   keycloak_app_database: /opt/tlv/services/employee_app_database
   fe_app: /opt/tlv/services/fe_app
@@ -18,13 +12,20 @@ service_directory:
 employee_database_port: 5432
 employee_database_name: employee
 employee_database:
-  username: PostTestGres
-  password: 12345678
+  username: "{{ lookup('env','EMPLOYEE_DATABASE_USERNAME') | default('PostTestGres', True) }}"
+  password: "{{ lookup('env','EMPLOYEE_DATABASE_PASSWORD') | default('12345678', True) }}"
   url: "employee-app-postgres:{{ employee_database_port }}/{{ employee_database_name }}"
-keycloak_database_port: 5433
+keycloak_database_port: 5432
 keycloak_database_name: keycloak
 keycloak_database:
-  username: PostGresKeyCloak
-  password: 12345678
+  username: "{{ lookup('env','KEYCLOAK_DATABASE_USERNAME') | default('PostGresKeyCloak', True) }}"
+  password: "{{ lookup('env','KEYCLOAK_DATABASE_PASSWORD') | default('12345678', True) }}"
   url: "postgres:{{ keycloak_database_port }}/{{ keycloak_database_name }}"
-
+PGADMIN_DEFAULT_EMAIL: "{{ lookup('env','PGADMIN_EMAIL') | default('pgadmin4@pgadmin.org', True) }}"
+PGADMIN_PORT: 5050
+PGADMIN_DEFAULT_PASSWORD:  "{{ lookup('env','PGADMIN_EMAIL') | default('admin', True) }}"
+drupal_mysql:
+  database: "{{ lookup('env','DRUPAL_MYSQL_DATABASE') | default('drupal', True) }}"
+  user:  "{{ lookup('env','DRUPAL_MYSQL_USER') | default('drupal', True) }}"
+  password:  "{{ lookup('env','DRUPAL_MYSQL_PASSWORD') | default('drupal', True) }}"
+  root_password:  "{{ lookup('env','DRUPAL_MYSQL_ROOT_PASSWORD') | default('root', True) }}"
